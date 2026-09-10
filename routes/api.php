@@ -1,0 +1,16 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProjectController;
+
+// Authentication routes (public)
+Route::post('/auth/register', [AuthController::class, 'register']);
+Route::post('/auth/login', [AuthController::class, 'login']);
+
+// Protected routes (require authentication)
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/auth/user', [AuthController::class, 'user']);
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
+    Route::apiResource('projects', ProjectController::class);
+});
